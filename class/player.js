@@ -1,4 +1,6 @@
+const { Room } = require('./room')
 const { Food } = require('./food');
+const { Item } = require("./item")
 
 class Player {
   constructor(name, startingRoom) {
@@ -32,12 +34,23 @@ class Player {
 
   takeItem(itemName) {
     // Picks up an item from the current room into the player's inventory
-    // Your code here 
+
+    if (this.currentRoom.getItemByName(itemName) === itemName) {
+      this.items.push(this.currentRoom.getItemByName(itemName))
+      let index = this.currentRoom.items.indexOf(itemName)
+      this.currentRoom.splice(index, 1)
+    }
+
   }
 
   dropItem(itemName) {
     // Drops an item the player is holding into their current room
-    // Your code here 
+    if (Player.items.includes(itemName)){
+      Room.items.push(itemName)
+      //Player.items.filter((item) => item !== itemName)
+      let index = Player.items.indexOf(itemName)
+      Player.items.splice(index, 1)
+    }
   }
 
   eatItem(itemName) {
@@ -45,12 +58,20 @@ class Player {
     // Your code here 
   }
 
-  getItemByName(name) {
+  getItemByName(name) { //"ROCK"
     // Retrieves an item from a player's inventory by item name
-
-    // Your code here 
+    
+    for (let i = 0; i < this.items.length; i++){
+      let item = this.items[i]
+      if (item.name === name){
+        return item
+      }
+    }
+  
   }
 }
+
+
 
 module.exports = {
   Player
